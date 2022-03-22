@@ -6,6 +6,11 @@ require('dotenv').config()
 const PORT = process.env.PORT
 const app = express()
 
+// MIDDLEWARE  app.set is for middleware, __dirname built in var to where we are
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jsx')
+app.engine('jsx', require('express-react-views').createEngine())
+
 // ROUTES
 app.get('/', (req, res) => {
   res.send('Welcome to an Awesome App about Breads!')
@@ -17,5 +22,5 @@ app.use('/breads', breadsController)
 
 // LISTEN
 app.listen(PORT, () => {
-  console.log('nomming at port', PORT);
+  console.log('nomming at port', PORT); 
 })
