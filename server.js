@@ -10,6 +10,12 @@ const app = express()
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
+/*
+** Our project will have some static assets. Things like CSS, logos, and other assets that are 
+** consistent throughout a website and that will be used by many pages go into a folder that is 
+** accessible by all the views.
+*/
+app.use(express.static('public'))
 
 // ROUTES
 app.get('/', (req, res) => {
@@ -19,6 +25,11 @@ app.get('/', (req, res) => {
 // Breads
 const breadsController = require('./controllers/breads_controller.js')
 app.use('/breads', breadsController)
+
+// 404 Page
+app.get('*', (req, res) => {
+  res.send('ERROR 404')
+})
 
 // LISTEN
 app.listen(PORT, () => {
