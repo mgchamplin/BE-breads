@@ -10,6 +10,7 @@ const app = express()
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
+app.use(express.urlencoded({extended: true}))
 /*
 ** Our project will have some static assets. Things like CSS, logos, and other assets that are 
 ** consistent throughout a website and that will be used by many pages go into a folder that is 
@@ -33,5 +34,5 @@ app.get('*', (req, res) => {
 
 // LISTEN
 app.listen(PORT, () => {
-  console.log('nomming at port', PORT);  
+  console.log('nomming at port', PORT);   
 })
