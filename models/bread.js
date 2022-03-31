@@ -1,3 +1,19 @@
+// require mongoose 
+const mongoose = require('mongoose')
+// creating shorthand for the Schema constructor 
+const { Schema } = mongoose
+
+const breadSchema = new Schema({
+  name: { type: String },
+  hasGluten: { type: Boolean },
+  image: { type: String }
+})
+
+const Bread = mongoose.model('Bread', breadSchema)
+
+module.exports = Bread
+
+/*
 module.exports = [
     {
       name: 'Rye',
@@ -20,3 +36,4 @@ module.exports = [
       image: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80',
     }
   ]
+  */
