@@ -1,6 +1,8 @@
 const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/bread.js')
+bread_seed = require("../models/bread-seed.js");
+
 
 // INDEX
 breads.get('/', (req, res) => {
@@ -25,14 +27,24 @@ breads.get('/new', (req, res) => {
   res.render('new')
 })
 
-// EDIT the Bread Info - route to a new form
-breads.get('/:indexArray/edit', (req, res) => {
-  console.log("NEW FORM EDIT")
+breads.get('/data/seed', (req, res) => {
+  console.log("GET /data/seed")
 
-  res.render('edit', {
-    bread: Bread[req.params.indexArray],
-    index: req.params.indexArray
+  Bread.insertMany(bread_seed)
+    .then(createdBreads => {
+      res.redirect('/breads')
   })
+})
+
+// EDIT the Bread Info - route to a new form
+breads.get('/:id/edit', (req, res) => {
+  console.log(":id/edit FORM")
+  Bread.findById(req.params.id) 
+    .then(foundBread => { 
+      res.render('edit', {
+        bread: foundBread 
+      })
+    })
 })
 
 // SHOW
@@ -67,24 +79,27 @@ breads.post('/', (req, res) => {
 })
 
 // DELETE
-breads.delete('/:indexArray', (req, res) => {
-  console.log("DELETE /:indexArray")
+breads.delete('/:id', (req, res) => {
+  console.log("DELETE /")
 
-  Bread.splice(req.params.indexArray, 1)
-  res.status(303).redirect('/breads')
+  Bread.findByIdAndDelete(req.params.id) 
+    .then(deletedBread => { 
+      res.status(303).redirect('/breads')
+    })
 })
 
 // UPDATE - overwrite old bread data with new
-breads.put('/:arrayIndex', (req, res) => {
-  console.log("UPDATE /:indexArray")
-
+breads.put('/:id', (req, res) => {
   if(req.body.hasGluten === 'on'){
     req.body.hasGluten = true
   } else {
     req.body.hasGluten = false
   }
-  Bread[req.params.arrayIndex] = req.body
-  res.redirect(`/breads/${req.params.arrayIndex}`)
+  Bread.findByIdAndUpdate(req.params.id, req.body, { new: true }) 
+    .then(updatedBread => {
+      console.log(updatedBread) 
+      res.redirect(`/breads/${req.params.id}`) 
+    })
 })
 
 module.exports = breads 
