@@ -20,7 +20,8 @@ function Show ({bread, index}) {
           <input type='submit' value="DELETE"/>
         </form>
 
-        <img src={bread.image} alt={bread.name} />
+        <img src={bread.image} alt={bread.name}/>
+        <p>Baked by<b> {bread.baker}</b></p>
         <li><a href="/breads">Go home</a></li>
       </Default>
       )
