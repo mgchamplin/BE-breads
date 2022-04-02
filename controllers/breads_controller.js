@@ -53,6 +53,8 @@ breads.get('/:id', (req, res) => {
 
   Bread.findById(req.params.id)
       .then(foundBread => {
+          const baked_by = foundBread.getBakedBy()
+          console.log(baked_by)
           res.render('show', {
               bread: foundBread
           })

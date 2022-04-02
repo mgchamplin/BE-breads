@@ -21,7 +21,7 @@ function Show ({bread, index}) {
         </form>
 
         <img src={bread.image} alt={bread.name}/>
-        <p>Baked by<b> {bread.baker}</b></p>
+        <p>{bread.getBakedBy()}</p>
         <li><a href="/breads">Go home</a></li>
       </Default>
       )
