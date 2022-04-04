@@ -2,7 +2,7 @@ const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/bread.js')
 bread_seed = require("../models/bread-seed.js");
-
+const Baker = require('../models/baker.js')
 
 // INDEX
 breads.get('/', (req, res) => {
@@ -10,7 +10,6 @@ breads.get('/', (req, res) => {
 
     Bread.find()
         .then(foundBreads => {
-            console.log("BREADS: " + foundBreads)
             res.render('Index',
             {
               breads: foundBreads,
@@ -20,20 +19,12 @@ breads.get('/', (req, res) => {
         })
 })
 
-// NEW
+// in the new route
 breads.get('/new', (req, res) => {
-  console.log("Get /new")
-
-  res.render('new')
-})
-
-breads.get('/data/seed', (req, res) => {
-  console.log("GET /data/seed")
-
-  Bread.insertMany(bread_seed)
-    .then(createdBreads => {
-      res.redirect('/breads')
-  })
+    Baker.find()
+        .then(foundBakers => {
+            res.render('new', { bakers: foundBakers })
+      })
 })
 
 // EDIT the Bread Info - route to a new form
