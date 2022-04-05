@@ -4,19 +4,19 @@ const Bread = require('../models/bread.js')
 bread_seed = require("../models/bread-seed.js");
 const Baker = require('../models/baker.js')
 
-// INDEX
+// Index:
 breads.get('/', (req, res) => {
-    console.log("GET /")
-
-    Bread.find()
-        .then(foundBreads => {
-            res.render('Index',
-            {
+  Baker.find()
+    .then(foundBakers => {
+      Bread.find()
+      .then(foundBreads => {
+          res.render('index', {
               breads: foundBreads,
+              bakers: foundBakers,
               title: 'Index Page'
-            }
-          )
-        })
+          })
+      })
+    })
 })
 
 // in the new route
