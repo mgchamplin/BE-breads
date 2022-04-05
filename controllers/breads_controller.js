@@ -27,14 +27,18 @@ breads.get('/new', (req, res) => {
       })
 })
 
-// EDIT the Bread Info - route to a new form
+// EDIT
 breads.get('/:id/edit', (req, res) => {
-  console.log(":id/edit FORM")
-  Bread.findById(req.params.id) 
-    .then(foundBread => { 
-      res.render('edit', {
-        bread: foundBread 
-      })
+  console.log("GET /:id/edit")
+  Baker.find()
+    .then(foundBakers => {
+        Bread.findById(req.params.id)
+          .then(foundBread => {
+            res.render('edit', {
+                bread: foundBread, 
+                bakers: foundBakers 
+            })
+          })
     })
 })
 
@@ -43,6 +47,7 @@ breads.get('/:id', (req, res) => {
   console.log("Get /:id = " + req.params.id)
 
   Bread.findById(req.params.id)
+      .populate('baker')
       .then(foundBread => {
           const baked_by = foundBread.getBakedBy()
           console.log(baked_by)
